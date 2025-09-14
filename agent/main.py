@@ -1,7 +1,5 @@
 import streamlit as st
-import pandas as pd
-from agent.mars_agent import get_mars_weather_agent
-
+from mars_agent.mars_agent import get_mars_weather_agent
 
 # Configuración de la página
 st.set_page_config(page_title="Chatbot de Clima en Marte", page_icon="🚀")
