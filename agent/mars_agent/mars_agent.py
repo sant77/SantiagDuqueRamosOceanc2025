@@ -4,12 +4,19 @@ from langchain.agents import create_tool_calling_agent, AgentExecutor
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import SystemMessage
 from langchain_community.utilities import SQLDatabase
-from config.settings import GOOGLE_API_KEY, DB_PATH
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+POSTGRES_URI = os.getenv('POSTGRES_URI')
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
+
 
 @tool
 def get_mars_weather(query: str) -> str:
     """Consulta datos del clima en Marte. Usa SQL simple."""
-    db = SQLDatabase.from_uri(f"sqlite:///{DB_PATH}")
+    db = SQLDatabase.from_uri(POSTGRES_URI)
     try:
         result = db.run(query)
         return f"Resultado: {result}"
@@ -17,7 +24,7 @@ def get_mars_weather(query: str) -> str:
         return f"Error: {str(e)}"
 
 def get_mars_weather_agent():
-    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=GOOGLE_API_KEY)
+    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=GOOGLE_API_KEY)
     
     system_prompt = SystemMessage(content="""
     Eres un chatbot experto en el clima de Marte. Usa la herramienta 'get_mars_weather' para consultar datos históricos.

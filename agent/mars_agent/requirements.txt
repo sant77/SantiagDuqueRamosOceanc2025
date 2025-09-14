@@ -1,5 +1,4 @@
 langchain==0.3.27
-fastapi==0.116.1
 streamlit==1.49.1
 langchain-google-genai==2.1.10
 langchain-community==0.3.29
