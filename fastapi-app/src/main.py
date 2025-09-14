@@ -1,8 +1,7 @@
-from fastapi import FastAPI
-from controllers.mars_weather_controller import MarsWeatherController
+from fastapi import Depends, FastAPI
+
+from src.controllers import mars_weather_controller
 
 app = FastAPI()
-
-mars_weather_controller = MarsWeatherController()
 
 app.include_router(mars_weather_controller.router)

@@ -1,3 +1,4 @@
+
 class MarsWeatherHelper:
     @staticmethod
     def format_weather_data(data):

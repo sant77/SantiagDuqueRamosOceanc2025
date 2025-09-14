@@ -1,7 +1,6 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, Numeric
-from sqlalchemy.orm import relationship, joinedload
-from database import Base
-from database import SessionLocal as db
+from sqlalchemy import Column, Integer, String, DateTime, Numeric
+from src.data.database import Base
+from src.data.database import SessionLocal as db
 from sqlalchemy.exc import IntegrityError
 
 class MarsWheater(Base):
@@ -30,10 +29,42 @@ class MarsWheater(Base):
             "date_end": self.date_end
         }
 
+def get_mars_weather(filters: dict = None):
+   
+    try:
+        query = db.query(MarsWheater)
+        if filters:
+            for key, value in filters.items():
+                if hasattr(MarsWheater, key):
+                    query = query.filter(getattr(MarsWheater, key) == value)
+        return [mw.to_json() for mw in query.all()]
+    finally:
+        db.close()
 
-def insert_mars_weather(user:dict):
-    pass
-    
-
-def select_mars_weather(address:dict):
-    pass
+def upsert_mars_weather(data: dict):
+    """
+    Actualiza el registro si el sol ya existe, si no, lo inserta.
+    """
+    try:
+        sol_value = data.get("sol")
+        mars_weather = db.query(MarsWheater).filter(MarsWheater.sol == sol_value).first()
+        if mars_weather:
+            # Update existing record
+            for key, value in data.items():
+                if hasattr(mars_weather, key):
+                    setattr(mars_weather, key, value)
+            db.commit()
+            db.refresh(mars_weather)
+            return mars_weather
+        else:
+            # Insert new record
+            mars_weather = MarsWheater(**data)
+            db.add(mars_weather)
+            db.commit()
+            db.refresh(mars_weather)
+            return mars_weather
+    except IntegrityError as e:
+        db.rollback()
+        raise e
+    finally:
+        db.close()

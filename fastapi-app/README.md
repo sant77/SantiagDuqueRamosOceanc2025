@@ -16,6 +16,7 @@ fastapi-app
 │   └── main.py
 ├── requirements.txt
 └── README.md
+└──dockerfile
 ```
 
 ## Installation

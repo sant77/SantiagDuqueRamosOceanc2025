@@ -1,0 +1,1 @@
+docker compose -p mars_agent up -d

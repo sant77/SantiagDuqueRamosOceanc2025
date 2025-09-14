@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: my_postgres
+    restart: always
+    env_file:
+      - ../.env
+ 
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_nasa:/var/lib/postgresql/data
+    networks:
+      - nasa_mars
+
+  fastapi-app:
+    build: ../fastapi-app
+    container_name: fastapi_app 
+    restart: always
+    env_file:
+      - ../.env   
+    ports:
+      - "8080:8080"
+    networks:
+      - nasa_mars
+    hostname: fastapi_app
+
+volumes:
+  postgres_data_nasa:
+
+networks:
+  nasa_mars:
