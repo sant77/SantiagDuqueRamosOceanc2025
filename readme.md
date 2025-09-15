@@ -84,6 +84,11 @@ Ejecuta el siguiente comando para construir y levantar los contenedores:
     docker compose -p mars_agent up -d
 ```
 
+# Test
+
+Se ejecutaron varios promt para observar la respuesta del agente
+<img align='center' src="images/test.jpg" width="500">
+<img align='center' src="images/test2.jpg" width="500">
 
 # Links de documentación externa🔗
 
