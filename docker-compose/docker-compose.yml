@@ -27,6 +27,17 @@ services:
       - nasa_mars
     hostname: fastapi_app
 
+  agent-app:
+    build: ../agent
+    restart: always
+    env_file:
+      - ../.env
+    ports:
+      - "8501:8501"
+    networks:
+      - nasa_mars
+    hostname: agent_app
+
 volumes:
   postgres_data_nasa:
 

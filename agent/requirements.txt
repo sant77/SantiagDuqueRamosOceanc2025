@@ -3,4 +3,5 @@ streamlit==1.49.1
 langchain-google-genai==2.1.10
 langchain-community==0.3.29
 requests==2.32.5
-psycopg2==2.9.10
+psycopg2-binary==2.9.10
+python-dotenv==1.0.1

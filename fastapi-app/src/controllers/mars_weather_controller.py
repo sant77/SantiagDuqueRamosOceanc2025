@@ -12,7 +12,7 @@ router = APIRouter( prefix="/mars_weather",
 async def get_data_from_nasa_api():
 
     mars_weather_service = MarsWeatherService()
-
+    print("hola1")
     mars_weather_service.fetch_weather_data_from_nasa()
 
     return {"message": "Datos obtenidos y almacenados correctamente"}
@@ -20,7 +20,7 @@ async def get_data_from_nasa_api():
 @router.post("/get_data_db")
 async def get_data_from_db(data: dict):
     
-    if not data or "id" not in data:
+    if not data or "sol" not in data:
         raise HTTPException(status_code=400, detail="Tiene que haber un campo sol en el body")
     
     mars_weather_service = MarsWeatherService()

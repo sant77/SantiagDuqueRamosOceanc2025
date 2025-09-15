@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, Numeric
 from src.data.database import Base
-from src.data.database import SessionLocal as db
+from src.data.database import SessionLocal 
 from sqlalchemy.exc import IntegrityError
 
 class MarsWheater(Base):
@@ -30,7 +30,7 @@ class MarsWheater(Base):
         }
 
 def get_mars_weather(filters: dict = None):
-   
+    db = SessionLocal()
     try:
         query = db.query(MarsWheater)
         if filters:
@@ -45,6 +45,7 @@ def upsert_mars_weather(data: dict):
     """
     Actualiza el registro si el sol ya existe, si no, lo inserta.
     """
+    db = SessionLocal()
     try:
         sol_value = data.get("sol")
         mars_weather = db.query(MarsWheater).filter(MarsWheater.sol == sol_value).first()
@@ -62,9 +63,11 @@ def upsert_mars_weather(data: dict):
             db.add(mars_weather)
             db.commit()
             db.refresh(mars_weather)
+            print(f"Inserted new record for sol {sol_value}")
             return mars_weather
     except IntegrityError as e:
         db.rollback()
+        print(f"Error de integridad: {e}")
         raise e
     finally:
         db.close()

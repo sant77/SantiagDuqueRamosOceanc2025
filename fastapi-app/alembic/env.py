@@ -6,6 +6,7 @@ from src.data.database import Base
 from alembic import context
 from dotenv import load_dotenv
 import os
+from src.data.mars_weather_model import MarsWheater
 
 load_dotenv()
 
