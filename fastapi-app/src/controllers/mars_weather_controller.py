@@ -12,7 +12,7 @@ router = APIRouter( prefix="/mars_weather",
 async def get_data_from_nasa_api():
 
     mars_weather_service = MarsWeatherService()
-    print("hola1")
+    
     mars_weather_service.fetch_weather_data_from_nasa()
 
     return {"message": "Datos obtenidos y almacenados correctamente"}

@@ -12,7 +12,7 @@ class MarsWeatherService:
     def fetch_weather_data_from_nasa(self):
 
         url = f"https://api.nasa.gov/insight_weather/?api_key={NASA_API_KEY}&feedtype=json&ver=1.0"
-        print("holaaa2")
+       
         response = requests.get(url)
         if response.status_code != 200:
             print(f"Error fetching data from NASA API: {response.status_code}")
@@ -33,7 +33,7 @@ class MarsWeatherService:
                 "date_start":datetime.fromisoformat(response_weather.get(sol,{}).get("First_UTC").replace("Z", "+00:00")) if response_weather.get(sol,{}).get("First_UTC") else None,
                 "date_end":datetime.fromisoformat(response_weather.get(sol,{}).get("Last_UTC").replace("Z", "+00:00")) if response_weather.get(sol,{}).get("Last_UTC") else None
             }
-            print("holaaa")
+            
             upsert_mars_weather(data)
 
        
